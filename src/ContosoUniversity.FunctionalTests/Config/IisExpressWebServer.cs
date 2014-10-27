@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Holf.AllForOne;
 
 namespace ContosoUniversity.FunctionalTests.Config
 {
@@ -19,6 +20,7 @@ namespace ContosoUniversity.FunctionalTests.Config
         {
             var webHostStartInfo = InitializeIisExpress(_application);
             _webHostProcess = Process.Start(webHostStartInfo);
+            _webHostProcess.TieLifecycleToParentProcess();
         }
 
         public void Stop()

@@ -18,7 +18,7 @@ namespace ContosoUniversity.FunctionalTests
             WebServer = new IisExpressWebServer(app);
             WebServer.Start();
 
-            Browser = new FirefoxDriver();
+            Browser = Browsers.Phantom;
         }
 
         [TearDown]
