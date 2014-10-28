@@ -45,6 +45,15 @@ namespace ContosoUniversity.Controllers
             return View();
         }
 
+        public ActionResult TestingEnvVariable()
+        {
+            var envVar = Environment.GetEnvironmentVariable("FunctionalTests");
+            if (envVar == null)
+                throw new Exception("Environment Variable was not injected!!");
+
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

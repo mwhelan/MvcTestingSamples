@@ -15,10 +15,11 @@ namespace ContosoUniversity.FunctionalTests
         public void SetUp()
         {
             var app = new WebApplication(ProjectLocation.FromFolder("ContosoUniversity"), 12365);
+            app.AddEnvironmentVariable("FunctionalTests");
             WebServer = new IisExpressWebServer(app);
             WebServer.Start();
 
-            Browser = Browsers.Phantom;
+            Browser = Browsers.Firefox;
         }
 
         [TearDown]
