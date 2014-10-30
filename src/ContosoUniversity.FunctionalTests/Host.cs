@@ -1,7 +1,6 @@
 ﻿using ContosoUniversity.FunctionalTests.Config;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace ContosoUniversity.FunctionalTests
 {
@@ -17,7 +16,7 @@ namespace ContosoUniversity.FunctionalTests
             var app = new WebApplication(ProjectLocation.FromFolder("ContosoUniversity"), 12365);
             app.AddEnvironmentVariable("FunctionalTests");
             WebServer = new IisExpressWebServer(app);
-            WebServer.Start();
+            WebServer.Start("Release");
 
             Browser = Browsers.Firefox;
         }

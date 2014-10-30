@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using Holf.AllForOne;
 
 namespace ContosoUniversity.FunctionalTests.Config
@@ -16,9 +17,20 @@ namespace ContosoUniversity.FunctionalTests.Config
             _application = application;
         }
 
-        public void Start()
+        public void Start(string configTransform = null)
         {
-            var webHostStartInfo = InitializeIisExpress(_application);
+            ProcessStartInfo webHostStartInfo;
+            if (configTransform == null)
+            {
+                webHostStartInfo = InitializeIisExpress(_application);
+            }
+            else
+            {
+                var siteDeployer = new MsBuildDeployer(_application.Location);
+                var deployPath = Path.Combine(Environment.CurrentDirectory, "TestSite2");
+                siteDeployer.Deploy(configTransform, deployPath);
+                webHostStartInfo = InitializeIisExpress(_application, deployPath);
+            }
             _webHostProcess = Process.Start(webHostStartInfo);
             _webHostProcess.TieLifecycleToParentProcess();
         }
@@ -37,7 +49,7 @@ namespace ContosoUniversity.FunctionalTests.Config
             get { return string.Format("http://localhost:{0}", _application.PortNumber); }
         }
 
-        private static ProcessStartInfo InitializeIisExpress(WebApplication application)
+        private static ProcessStartInfo InitializeIisExpress(WebApplication application, string deployPath = null)
         {
             // todo: grab stdout and/or stderr for logging purposes?
             var key = Environment.Is64BitOperatingSystem ? "programfiles(x86)" : "programfiles";
@@ -50,7 +62,7 @@ namespace ContosoUniversity.FunctionalTests.Config
                 LoadUserProfile = true,
                 CreateNoWindow = false,
                 UseShellExecute = false,
-                Arguments = String.Format("/path:\"{0}\" /port:{1}", application.Location.FullPath, application.PortNumber),
+                Arguments = String.Format("/path:\"{0}\" /port:{1}", deployPath ?? application.Location.FullPath, application.PortNumber),
                 FileName = string.Format("{0}\\IIS Express\\iisexpress.exe", programfiles)
             };
 

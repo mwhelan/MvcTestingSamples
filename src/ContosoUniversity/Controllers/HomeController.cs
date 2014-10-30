@@ -54,6 +54,11 @@ namespace ContosoUniversity.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult TestingConfigTransformVariable()
+        {
+            return Content(System.Configuration.ConfigurationManager.AppSettings["EnvironmentName"]);
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

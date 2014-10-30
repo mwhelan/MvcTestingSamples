@@ -7,11 +7,14 @@ namespace ContosoUniversity.FunctionalTests.Config
     public interface IProjectLocation
     {
         string FullPath { get; }
+        string ProjectName { get; }
     }
 
     public class ProjectLocation : IProjectLocation
     {
         public string FullPath { get; private set; }
+
+        public string ProjectName { get; private set; }
 
         private ProjectLocation(string fullPath)
         {
@@ -21,6 +24,7 @@ namespace ContosoUniversity.FunctionalTests.Config
                 throw new DirectoryNotFoundException();
             }
             FullPath = fullPath;
+            ProjectName = GetProjectNameFromFolder(fullPath);
         }
 
         public static ProjectLocation FromPath(string webProjectFullPath)
@@ -60,6 +64,15 @@ namespace ContosoUniversity.FunctionalTests.Config
             }
 
             return directory.FullName;
+        }
+
+        private static string GetProjectNameFromFolder(string folderPath)
+        {
+            var projectDirectory = new DirectoryInfo(folderPath);
+            var projectName = projectDirectory.EnumerateFiles("*.csproj").SingleOrDefault();
+            if(projectName == null)
+                throw new FileNotFoundException("No '.csproj' file found in specified web application folder.");
+            return projectName.FullName;
         }
     }
 }
