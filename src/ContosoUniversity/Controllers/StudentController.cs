@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using ContosoUniversity.DAL.Repositories;
 using ContosoUniversity.Models;
 using System.Data.Entity.Infrastructure;
+using ContosoUniversity.ViewModels;
 
 namespace ContosoUniversity.Controllers
 {
@@ -68,12 +69,18 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LastName, FirstMidName, EnrollmentDate")]Student student)
+        public ActionResult Create([Bind(Include = "LastName, FirstMidName, EnrollmentDate")]CreateStudentForm studentForm)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var student = new Student
+                    {
+                        EnrollmentDate = studentForm.EnrollmentDate,
+                        FirstMidName = studentForm.FirstMidName,
+                        LastName = studentForm.LastName
+                    };
                     _repository.Create(student);
                     return RedirectToAction("Index");
                 }
@@ -83,7 +90,7 @@ namespace ContosoUniversity.Controllers
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
-            return View(student);
+            return View(studentForm);
         }
 
         // GET: /Student/Edit/5
