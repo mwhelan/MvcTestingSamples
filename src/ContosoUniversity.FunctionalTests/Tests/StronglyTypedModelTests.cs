@@ -45,5 +45,26 @@ namespace ContosoUniversity.FunctionalTests.Tests
             Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
         }
 
+        [Test]
+        public void CanReadFormFieldFromModelProperty()
+        {
+            var studentDetailsPage = Host.NavigateTo<StudentController, StudentDetailsPage>(x => x.Details(1));
+
+            studentDetailsPage
+                .DisplayFor(x => x.LastName)
+                .Should().Be("Alexander");
+        }
+
+        [Test]
+        public void CanReadModelFromPage()
+        {
+            var studentDetailsPage = Host.NavigateTo<StudentController, StudentDetailsPage>(x => x.Details(1));
+
+            var model = studentDetailsPage.ReadModel();
+
+            model.FirstMidName.Should().Be("Carson");
+            model.LastName.Should().Be("Alexander");
+        }
+
     }
 }

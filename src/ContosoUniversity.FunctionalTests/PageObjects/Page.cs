@@ -5,7 +5,7 @@ using OpenQA.Selenium;
 
 namespace ContosoUniversity.FunctionalTests.PageObjects
 {
-    public class Page<TModel> : Page
+    public class Page<TModel> : Page where TModel : new()
     {
         public Page<TModel> TextBoxFor<TField>(Expression<Func<TModel, TField>> field, TField value)
         {
@@ -28,6 +28,33 @@ namespace ContosoUniversity.FunctionalTests.PageObjects
                 element.SendKeys(property.GetValue(model).ToString());
             }
             return this;
+        }
+
+        public string DisplayFor<TField>(Expression<Func<TModel, TField>> field)
+        {
+            string name = ExpressionHelper.GetExpressionText(field);
+            string id = TagBuilder.CreateSanitizedId(name);
+
+            var span = Host.Browser.FindElement(By.Id(id));
+
+            return span.Text;
+        }
+
+        public TModel ReadModel()
+        {
+            var type = typeof(TModel);
+            var instance = new TModel();
+
+            foreach (var property in type.GetProperties())
+            {
+                string name = ExpressionHelper.GetExpressionText(property.Name);
+                string id = TagBuilder.CreateSanitizedId(name);
+
+                var span = Host.Browser.FindElement(By.Id(id));
+                property.SetValue(instance, span.Text, null);
+            }
+
+            return instance;
         }
     }
 
