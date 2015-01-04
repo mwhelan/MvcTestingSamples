@@ -107,13 +107,17 @@
     <Compile Include="Fakes\FakeHttpRequest.cs" />
     <Compile Include="Fakes\FakeHttpResponse.cs" />
     <Compile Include="Fakes\FakeHttpSessionState.cs" />
-    <Compile Include="Routes\MvcUrlHelper.cs" />
-    <Compile Include="Tests.cs" />
+    <Compile Include="Navigation\MvcUrlHelper.cs" />
+    <Compile Include="PageObjects\NewStudentPage.cs" />
+    <Compile Include="PageObjects\Page.cs" />
+    <Compile Include="RouteUnitTests.cs" />
     <Compile Include="Config\IisExpressWebServer.cs" />
     <Compile Include="Config\ProjectLocation.cs" />
     <Compile Include="Config\WebApplication.cs" />
     <Compile Include="Host.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ConfigurationTests.cs" />
+    <Compile Include="Tests\MagicStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

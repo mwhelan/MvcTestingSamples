@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using NUnit.Framework;
 
-namespace ContosoUniversity.FunctionalTests
+namespace ContosoUniversity.FunctionalTests.Tests
 {
     [TestFixture]
-    public class Tests
+    public class ConfigurationTests
     {
         [Test]
         public void Can_go_to_home_page()

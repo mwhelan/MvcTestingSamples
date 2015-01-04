@@ -3,8 +3,9 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using ContosoUniversity.FunctionalTests.Fakes;
+using OpenQA.Selenium;
 
-namespace ContosoUniversity.FunctionalTests.Routes
+namespace ContosoUniversity.FunctionalTests.Navigation
 {
     public class MvcUrlHelper
     {
@@ -32,7 +33,7 @@ namespace ContosoUniversity.FunctionalTests.Routes
             var requestContext = new RequestContext(FakeHttpContext.Root(), new RouteData());
 
             var actionRouteValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
-            var urlHelper = new UrlHelper(requestContext, _routeCollection);
+            var urlHelper = new System.Web.Mvc.UrlHelper(requestContext, _routeCollection);
             var relativeUrl = urlHelper.RouteUrl(new RouteValueDictionary(actionRouteValues));
 
             return relativeUrl;

@@ -1,4 +1,9 @@
-﻿using ContosoUniversity.FunctionalTests.Config;
+﻿using System;
+using System.Linq.Expressions;
+using System.Web.Mvc;
+using System.Web.Routing;
+using ContosoUniversity.FunctionalTests.Config;
+using ContosoUniversity.FunctionalTests.Navigation;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -9,6 +14,7 @@ namespace ContosoUniversity.FunctionalTests
     {
         public static IisExpressWebServer WebServer;
         public static IWebDriver Browser;
+        private static MvcUrlHelper _mvcUrlHelper ;
 
         [SetUp]
         public void SetUp()
@@ -19,6 +25,7 @@ namespace ContosoUniversity.FunctionalTests
             WebServer.Start("Release");
 
             Browser = Browsers.Firefox;
+            _mvcUrlHelper = new MvcUrlHelper(RouteConfig.RegisterRoutes(new RouteCollection()));
         }
 
         [TearDown]
@@ -26,6 +33,16 @@ namespace ContosoUniversity.FunctionalTests
         {
             Browser.Quit();
             WebServer.Stop();
+        }
+
+        public static TPage NavigateTo<TController, TPage>(Expression<Action<TController>> action)
+            where TController : Controller
+            where TPage : new()
+        {
+            string relativeUrl = _mvcUrlHelper.GetRelativeUrlFor(action);
+            string url = string.Format("{0}{1}", WebServer.BaseUrl, relativeUrl);
+            Browser.Navigate().GoToUrl(url);
+            return new TPage();
         }
     }
 }
