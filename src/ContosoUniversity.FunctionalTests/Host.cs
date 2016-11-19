@@ -24,7 +24,7 @@ namespace ContosoUniversity.FunctionalTests
             WebServer = new IisExpressWebServer(app);
             WebServer.Start("Release");
 
-            Browser = Browsers.Firefox;
+            Browser = Browsers.Chrome;
             _mvcUrlHelper = new MvcUrlHelper(RouteConfig.RegisterRoutes(new RouteCollection()));
         }
 

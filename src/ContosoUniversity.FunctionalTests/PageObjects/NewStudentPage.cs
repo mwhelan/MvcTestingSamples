@@ -10,7 +10,7 @@ namespace ContosoUniversity.FunctionalTests.PageObjects
         {
             get
             {
-                var header = Host.Browser.FindElement(By.Id("title"));
+                var header = Host.Browser.FindElement(By.Name("title"));
                 return header.Text;
             }
         }

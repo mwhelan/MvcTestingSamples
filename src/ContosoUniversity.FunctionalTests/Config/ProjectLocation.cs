@@ -1,6 +1,8 @@
 using System;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace ContosoUniversity.FunctionalTests.Config
 {
@@ -73,6 +75,14 @@ namespace ContosoUniversity.FunctionalTests.Config
             if(projectName == null)
                 throw new FileNotFoundException("No '.csproj' file found in specified web application folder.");
             return projectName.FullName;
+        }
+
+        private static string GetTestProjectDirectory()
+        {
+            string codeBase = typeof(IProjectLocation).Assembly.CodeBase;
+            var uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            return Path.GetDirectoryName(path);
         }
     }
 }

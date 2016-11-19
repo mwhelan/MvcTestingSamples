@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using Holf.AllForOne;
-using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 
@@ -9,13 +9,13 @@ namespace ContosoUniversity.FunctionalTests
 {
     public static class Browsers
     {
-        private static RemoteWebDriver _firefox;
-        public static RemoteWebDriver Firefox
+        private static RemoteWebDriver _chrome;
+        public static RemoteWebDriver Chrome
         {
             get
             {
-                if (_firefox == null) _firefox = new FirefoxDriver();
-                return _firefox;
+                if (_chrome == null) _chrome = new ChromeDriver();
+                return _chrome;
             }
         }
 

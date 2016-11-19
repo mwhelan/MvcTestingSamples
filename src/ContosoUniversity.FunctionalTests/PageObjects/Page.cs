@@ -71,7 +71,7 @@ namespace ContosoUniversity.FunctionalTests.PageObjects
         {
             get
             {
-                return Host.Browser.FindElement(By.Id("pageId")).Text;
+                return Host.Browser.FindElement(By.Name("pageId")).Text;
             }
         }
     }
